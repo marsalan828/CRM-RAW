@@ -17,11 +17,10 @@ return new class extends Migration
             $table->text('Description');
             $table->date('StartTime');
             $table->date('EndTime');
-            $table->enum('status',['Assigned','Pending','Completed']);
-            $table->unsignedBigInteger('employee_id');
+            $table->enum('status',['Pending','Assigned','Completed'])->nullable();
+            $table->integer('employee_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('employee_id')->references('id')->on('employees');
         });
     }
 

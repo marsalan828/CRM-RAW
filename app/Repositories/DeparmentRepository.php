@@ -20,18 +20,31 @@ class DepartmentRepository implements DepartmentRepositoryInterface {
     }
     public function UpdateDepartment($id, array $data)
     {
+        $departmentExists = DB::table('departments')->where('id',$id)->exists();
+        if(!$departmentExists){
+            return response()->json(['message'=>'Department does not exist'],404);
+        }
         return DB::table('companies')->where('id',$id)->update($data);
     }
     public function DeleteDepartment($id)
     {
-        return DB::table('companies')->where('id',$id)->delete();
+        $departmentExists = DB::table('departments')->where('id',$id)->exists();
+        return DB::table('departments')->where('id',$id)->delete();
     }
     public function GetAllDepartments()
     {
-        return DB::table('companies')->get();
+        $departmentExists = DB::table('departments')->isEmpty();
+        if (!$departmentExists){
+            return response()->json(['message'=>'Database is empty'],204);
+        }
+        return DB::table('departments')->get();
     }
     public function GetDepartment($id)
     {
-        return DB::table('companies')->where('id',$id)->get();
+        $departmentExists = DB::table('departments')->where('id',$id)->exists();
+        if(!$departmentExists){
+            return response()->json(['message'=>'Department does not exist'],204);
+        }
+        return DB::table('departments')->where('id',$id)->get();
     }   
 }

@@ -8,5 +8,6 @@ interface TaskRepositoryInterface {
     public function DeleteTask($id);
     public function GetAllTasks();
     public function GetTask($id);
-    public function AssignTask($id, array $data);
+    public function AssignTask(array $data);
+    public function CompleteTask($id);
 }
