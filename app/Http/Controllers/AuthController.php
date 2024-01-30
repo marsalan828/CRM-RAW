@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserLoginRequest;
+use App\Services\Auth\EmailVerificationService;
 use App\Services\Auth\LoginService;
 use App\Services\Auth\LogoutService;
 use App\Services\Auth\RegistrationService;
@@ -12,13 +14,18 @@ class AuthController extends Controller
     protected $registrationService;
     protected $loginService;
     protected $logoutService;
+    protected $emailVerificationService;
     public function __construct(
         RegistrationService $registrationService,
         LoginService $loginService,
-        LogoutService $logoutService
+        LogoutService $logoutService,
+        EmailVerificationService $emailVerificationService
         )
     {
         $this->registrationService = $registrationService;
+        $this->loginService = $loginService;
+        $this->logoutService = $logoutService;
+        $this->emailVerificationService = $emailVerificationService;
     }
 
     public function RegisterUser(Request $request)
@@ -30,9 +37,9 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request){
+    public function login(UserLoginRequest $request){
         try{
-            return $this->loginService->login($request->all());
+            return $this->loginService->login($request);
         }catch(\Exception $e){
             return response()->json(['message'=>$e->getMessage()]);
         }
@@ -40,7 +47,16 @@ class AuthController extends Controller
 
     public function logout(Request $request){
         try{
-            return $this->logoutService->logout($request->all());
+            return $this->logoutService->logout($request);
+        }catch(\Exception $e){
+            return response()->json(['message'=>$e->getMessage()]);
+        }
+    }
+
+    public function emailVerify(Request $request)
+    {
+        try{
+            return $this->emailVerificationService->verifyEmail($request);
         }catch(\Exception $e){
             return response()->json(['message'=>$e->getMessage()]);
         }
