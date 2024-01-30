@@ -14,6 +14,8 @@ class Employee extends Model
         'Phone_number',
         'DOB',
         'Gender',
+        'employee_id',
+        'user_id'
     ];
 
     public function user(){

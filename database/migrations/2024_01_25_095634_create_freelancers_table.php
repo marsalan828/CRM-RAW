@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('freelancers', function (Blueprint $table) {
             $table->id();
-            $table->string('Name');
+            $table->string('FreelancerName');
             $table->string('Industry');
+            $table->string('BusinessType');
+            $table->bigInteger('RegistrationNumber');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -13,6 +13,7 @@ class Company extends Model
         'BusinessType',
         'Industry',
         'RegistrationNumber',
+        'user_id'
     ];
 
     public function user(){

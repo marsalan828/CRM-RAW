@@ -10,6 +10,7 @@ class Department extends Model
     use HasFactory;
     protected $fillable = [
         'DepartmentName',
+        'company_id'
     ];
 
     public function company(){

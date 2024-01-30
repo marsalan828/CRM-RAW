@@ -3,49 +3,45 @@
 namespace App\Repositories;
 
 use App\Interfaces\FreelancerRepositoryInterface;
+use App\Models\Freelancer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FreelancerRepository implements FreelancerRepositoryInterface {
     public function CreateFreelancer(array $data)
     {
-        $userId = Auth::user()->id;
-        return DB::table('freelancers')->insert([
-            'Name'=>$data['Name'],
-            'Industry'=>$data['Industry'],
-            'user_id'=>$userId
-        ]);
+        return Freelancer::create($data);
     }
     public function UpdateFreelancer($id,array $data)
     {   
-        $freelancerExists = DB::table('freelancers')->where('id',$id)->exists();
-        if (!$freelancerExists){
+        $freelancer = Freelancer::find($id);
+        if (!$freelancer){
             return response()->json(['message'=>'Freelancer does not exist'],404);
         }
-        return DB::table('freelancers')->where('id',$id)->update($data);
+        return $freelancer->update($data);
     }   
     public function DeleteFreelancer($id)
     {
-        $freelancerExists = DB::table('freelancers')->where('id',$id)->exists();
-        if (!$freelancerExists){
+        $freelancer = Freelancer::find($id);
+        if (!$freelancer){
             return response()->json(['message'=>'Freelancer does not exist'],404);
         }
-        return DB::table('freelancers')->where('id',$id)->delete();
+        return $freelancer->delete($id);
     }
     public function GetAllFreelancers()
     {
-        $freelancerExists = DB::table('freelancers')->isEmpty();
-        if (!$freelancerExists){
+        $freelancer = Freelancer::all();
+        if (!$freelancer){
             return response()->json(['message'=>'Database is empty'],204);
         }
-        return DB::table('freelancers')->get();
+        return $freelancer;
     }
     public function GetFreelancer($id)
     {
-        $freelancerExists = DB::table('freelancers')->where('id',$id)->exists();
-        if (!$freelancerExists){
+        $freelancer = Freelancer::find($id);
+        if (!$freelancer){
             return response()->json(['message'=>'Freelancer does not exist'],404);
         }
-        return DB::table('freelancers')->where('id',$id)->get();
+        return $freelancer->find($id);
     }
 }

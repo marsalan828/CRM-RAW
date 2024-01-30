@@ -10,8 +10,11 @@ class Freelancer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'Name',
+        'FreelancerName',
         'Industry',
+        'BusinessType',
+        'RegistrationNumber',
+        'user_id'
     ];
 
     public function user(){

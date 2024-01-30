@@ -11,30 +11,20 @@ class CompanyRepository implements CompanyRepositoryInterface {
 
     public function CreateCompany(array $data)
     {
-        $userId = Auth::user()->id;
-        if (!$userId){
-            return response()->json(['message'=>'User is not Logged in'],401);
-        }
-        return DB::table('companies')->insert([
-            'CompanyName'=>$data['CompanyName'],
-            'BusinessType'=>$data['BusinessType'],
-            'Industry'=>$data['Industry'],
-            'RegistrationNumber'=>$data['RegistrationNumber'],
-            'user_id'=>$userId
-        ]);
+        return Company::create($data);
     }
 
     public function UpdateCompany($id, array $data)
     {   
-        $companyExists = DB::table('companies')->where('id',$id)->exists();
-        if (!$companyExists){
+        $company = DB::find($id);
+        if (!$company){
             return response()->json(['message'=>'company does not exist'],404);
         }
-        $userId = Auth::user()->id;
+        $userId = Auth::id();
         if (!$userId){
             return response()->json(['message'=>'User is not Logged in'],401);
         }
-        return DB::table('companies')->where('id',$id)->update([
+        return $company->update([
             'CompanyName'=>$data['CompanyName'],
             'BusinessType'=>$data['BusinessType'],
             'Industry'=>$data['Industry'],
@@ -44,28 +34,28 @@ class CompanyRepository implements CompanyRepositoryInterface {
 
     public function DeleteCompany($id)
     {
-        $companyExists = DB::table('companies')->where('id',$id)->exists();
-        if (!$companyExists){
+        $company = Company::find($id);
+        if (!$company){
             return response()->json(['message'=>'Company does not exist'],404);
         }
-        return DB::table('companies')->where('id',$id)->delete();
+        return $company->delete($id);
     }
 
     public function GetAllCompanies()
     {
-        $DBExist = DB::table('companies')->isEmpty();
-        if ($DBExist){
+        $company = Company::all();
+        if ($company->isEmpty()){
             return response()->json(['message'=>'Database is empty'],204);
         }
-        return DB::table('companies')->get();
+        return $company;
     }
 
     public function GetCompany($id)
     {
-        $companyExists = DB::table('companies')->where('id',$id)->exists();
-        if (!$companyExists){
+        $company = Company::find($id);
+        if (!$company){
             return response()->json(['message'=>'Company does not exist'],404);
         }
-        return DB::table('companies')->where('id',$id)->get();
+        return $company->find($id);
     }
 }

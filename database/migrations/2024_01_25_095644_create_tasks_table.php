@@ -18,9 +18,10 @@ return new class extends Migration
             $table->date('StartTime');
             $table->date('EndTime');
             $table->enum('status',['Pending','Assigned','Completed'])->nullable();
-            $table->integer('employee_id')->nullable();
+            $table->unsignedBigInteger('employee_id');
             $table->timestamps();
 
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

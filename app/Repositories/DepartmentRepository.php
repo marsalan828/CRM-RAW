@@ -7,44 +7,45 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Framework\Attributes\Depends;
 
 class DepartmentRepository implements DepartmentRepositoryInterface {
 
     public function CreateDepartment(array $data)
     {
         $companyId = Auth::company()->id;
-        return DB::table('departments')->insert([
+        return Department::create([
             'DepartmentName'=>$data['DepartmentName'],
             'company_id'=>$companyId,
         ]);
     }
     public function UpdateDepartment($id, array $data)
     {
-        $departmentExists = DB::table('departments')->where('id',$id)->exists();
-        if(!$departmentExists){
+        $department = Department::find('id',$id);
+        if(!$department){
             return response()->json(['message'=>'Department does not exist'],404);
         }
-        return DB::table('companies')->where('id',$id)->update($data);
+        return $department->update($data);
     }
     public function DeleteDepartment($id)
     {
-        $departmentExists = DB::table('departments')->where('id',$id)->exists();
-        return DB::table('departments')->where('id',$id)->delete();
+        $department = Department::find('id',$id);
+        return $department->delete($id);
     }
     public function GetAllDepartments()
     {
-        $departmentExists = DB::table('departments')->isEmpty();
-        if (!$departmentExists){
+        $department = Department::all();
+        if (!$department){
             return response()->json(['message'=>'Database is empty'],204);
         }
-        return DB::table('departments')->get();
+        return $department;
     }
     public function GetDepartment($id)
     {
-        $departmentExists = DB::table('departments')->where('id',$id)->exists();
-        if(!$departmentExists){
+        $department = Department::find('id',$id);
+        if(!$department){
             return response()->json(['message'=>'Department does not exist'],204);
         }
-        return DB::table('departments')->where('id',$id)->get();
+        return $department->find($id);
     }   
 }

@@ -15,5 +15,6 @@ class Task extends Model
         'StartTime',
         'EndTime',
         'status',
+        'employee_id'
     ];
 }

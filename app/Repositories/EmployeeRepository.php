@@ -3,54 +3,46 @@
 namespace App\Repositories;
 
 use App\Interfaces\EmployeeRepositoryInterface;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeRepository implements EmployeeRepositoryInterface {
     public function CreateEmployee(array $data)
     {
-        $deptId = Auth::department()->id;
-        $userId = Auth::user()->id;
-        return DB::table('employees')->insert([
-            'Name'=>$data['Name'],
-            'Phone_number'=>$data['Phone_number'],
-            'DOB'=>$data['DOB'],
-            'Gender'=>$data['Gender'],
-            'deparment_id'=>$deptId,
-            'user_id'=>$userId 
-        ]);
+        return Employee::create($data);
     }
     public function UpdateEmployee($id,array $data)
     {
-        $employeeExists = DB::table('employee')->where('id',$id)->exists();
-        if (!$employeeExists){
+        $employee = Employee::find('id',$id);
+        if (!$employee){
             return response()->json(['message'=>'Employee does not exist'],404); 
         }
-        return DB::table('employees')->where('id',$id)->update($data);
+        return $employee->update($data);
     }
     public function DeleteEmployee($id)
     {
-        $employeeExists = DB::table('emloyees')->where('id',$id)->exists();
-        if (!$employeeExists){
+        $employee = Employee::find('id',$id);
+        if (!$employee){
             return response()->json(['message'=>'Employee does not exist'],404);
         }
-        return DB::table('employees')->where('id',$id)->delete();
+        return $employee->delete($id);
     }
     public function GetAllEmployees()
     {
-        $employeeExists = DB::table('employees')->isEmpty();
-        if (!$employeeExists){
+        $employee = Employee::all();
+        if (!$employee){
             return response()->json(['message'=>'Database is empty'],204);
         }
-        return DB::table('employees')->get();
+        return $employee;
     }
     public function GetEmployee($id)
     {
-        $employeeExists = DB::table('employees')->where('id',$id)->exists();
-        if (!$employeeExists){
+        $employee = Employee::find($id);
+        if (!$employee){
             return response()->json(['message'=>'Employee does not exist'],404);
         }
-        return DB::table('employees')->where('id',$id)->get();
+        return $employee->find($id);
     }
 
 }
