@@ -21,5 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/get-users',[UserController::class,'GetAllUsers']);
-Route::post('/register-user',[AuthController::class,'RegisterUser']);
+Route::post('/register-user', [AuthController::class, 'RegisterUser'])->middleware('cors');
+Route::post('/login-user', [AuthController::class, 'login'])->middleware('cors');
+Route::post('/logout-user', [AuthController::class, 'logout'])->middleware('cors');
 Route::middleware('auth:sanctum')->post('/email-verify',[AuthController::class,'']);
