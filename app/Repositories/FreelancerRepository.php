@@ -4,8 +4,6 @@ namespace App\Repositories;
 
 use App\Interfaces\FreelancerRepositoryInterface;
 use App\Models\Freelancer;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class FreelancerRepository implements FreelancerRepositoryInterface {
     public function CreateFreelancer(array $data)

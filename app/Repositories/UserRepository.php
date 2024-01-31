@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 use App\Interfaces\UserRepositoryInterface;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface {

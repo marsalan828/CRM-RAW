@@ -4,8 +4,6 @@ namespace App\Repositories;
 
 use App\Interfaces\EmployeeRepositoryInterface;
 use App\Models\Employee;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class EmployeeRepository implements EmployeeRepositoryInterface {
     public function CreateEmployee(array $data)

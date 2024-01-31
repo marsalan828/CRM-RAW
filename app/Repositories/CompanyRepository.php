@@ -5,7 +5,6 @@ use App\Interfaces\CompanyRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
-use App\Models\User;
 
 class CompanyRepository implements CompanyRepositoryInterface {
 

@@ -2,12 +2,8 @@
 namespace App\Repositories;
 
 use App\Interfaces\DepartmentRepositoryInterface;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company;
 use App\Models\Department;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use PHPUnit\Framework\Attributes\Depends;
 
 class DepartmentRepository implements DepartmentRepositoryInterface {
 
