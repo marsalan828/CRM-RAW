@@ -26,7 +26,8 @@ Route::get('/get-users',[UserController::class,'GetAllUsers']);
 Route::post('/register-user', [AuthController::class, 'RegisterUser'])->middleware(Cors::class);
 // Route::post('/login-user', [AuthController::class, 'login'])->middleware('cors');
 // Route::post('/logout-user', [AuthController::class, 'logout'])->middleware('cors');
-// Route::middleware('auth:sanctum')->post('/email-verify',[AuthController::class,'']);
+Route::middleware('auth:sanctum')->post('/email-verify',[AuthController::class,'emailVerify']);
+
 
 // Route::post('/verify-email',[AuthController::class,'emailVerify']);
 
